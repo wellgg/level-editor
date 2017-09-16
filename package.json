@@ -1,0 +1,28 @@
+{
+  "name": "level-editor",
+  "version": "0.1.0",
+  "description": "A Simple Level Editor",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wellgg/level-editor.git"
+  },
+  "keywords": [
+    "level",
+    "editor",
+    "wellgg"
+  ],
+  "author": "Team WellGG",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wellgg/level-editor/issues"
+  },
+  "homepage": "https://github.com/wellgg/level-editor#readme",
+  "devDependencies": {
+    "electron": "^1.7.6"
+  }
+}
