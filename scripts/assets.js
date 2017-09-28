@@ -1,4 +1,4 @@
-let assets = ['grayrough.png', 'yellowrough.png']
+let assets = ['void.png', 'grayrough.png', 'yellowrough.png']
 let imgs = []
 
 for(let i = 0; i < assets.length; i++) {

@@ -1,0 +1,21 @@
+<html>
+    <body>
+        <h1>Do you want to make a new map? or open an old one?</h1>
+        <button onclick="newMap()">New Map</button>
+        <button onclick="openMap()">Open Map</button>
+        <script>
+        
+        const {ipcRenderer} = require('electron')
+        
+        function newMap()
+        {
+            ipcRenderer.send('openMap', 'null')
+        }
+        
+        function openMap()
+        {
+            window.location.replace('./open.html')
+        }
+        </script>
+    </body>
+</html>

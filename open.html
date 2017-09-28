@@ -1,0 +1,23 @@
+<html>
+    <body>
+        <h1>Select which file to open</h1>
+        <button onclick="selectFile()">Select File</button>
+        <script>
+        const {dialog, ipcRenderer} = require('electron').remote
+        
+        function selectFile()
+        {
+            let file = dialog.showOpenDialog(
+            {
+                title: 'Select Map',
+                filters: [
+                    {name: 'JSON Map', extensions: ['json']}
+                ],
+                properties: ['openFile'],
+                message: 'pls select gud map'
+            })[0]
+            ipcRenderer.send('openMap', file)
+        }
+        </script>
+    </body>
+</html>
