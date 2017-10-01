@@ -3,7 +3,8 @@
         <h1>Select which file to open</h1>
         <button onclick="selectFile()">Select File</button>
         <script>
-        const {dialog, ipcRenderer} = require('electron').remote
+        const {dialog} = require('electron').remote
+        const {ipcRenderer} = require('electron')
         
         function selectFile()
         {
@@ -16,6 +17,7 @@
                 properties: ['openFile'],
                 message: 'pls select gud map'
             })[0]
+            
             ipcRenderer.send('openMap', file)
         }
         </script>

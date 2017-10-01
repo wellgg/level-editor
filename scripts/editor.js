@@ -2,36 +2,45 @@
 let canvas = document.getElementById('cnv')
 let ctx = canvas.getContext('2d')
 
-// each tile is 16 by 16, but they are rendered as 48 by 48
-const blocksize = 48
+// each tile is 16 by 16, but they are rendered as 64 by 64
+const blockSize = 64
 
 // gets asset files from assets.js
 const imgs = require('./scripts/assets.js').imgs
 
 // gets ipcRenderer for async messages
 const {ipcRenderer} = require('electron')
-const {fs} = require('fs')
+
+// gets node's file system 
+const fs = require('fs')
 
 // stores map and default map size
 let mapArray = [], startpoint
 let name, width, height, map
 
-
-
-function draw() {
-	drawMap()
-	requestAnimationFrame(draw)
+// draw loop
+function draw()
+{
+    drawMap()
+    requestAnimationFrame(draw)
 }
 
-function drawMap() {
-	for (var i = 0; i < mapArray.length; i++) {
-		for (var j = 0; j < mapArray[i].length; j++) {
-            ctx.drawImage(imgs[mapArray[i][j]], i * blocksize, j * blocksize, blocksize, blocksize)
-		}
-	}
+// function draws map to canvas from mapArray
+function drawMap()
+{
+    for (var i = 0; i < mapArray.length; i++)
+    {
+        for (var j = 0; j < mapArray[i].length; j++)
+        {
+            ctx.drawImage(imgs[mapArray[j][i]], i * blockSize, j * blockSize, blockSize, blockSize)
+        }
+    }
 }
 
-ipcRenderer.on('openFile', (event, arg) => {
+// this callback acts as an init function, as it gets called first
+ipcRenderer.on('openFile', (event, arg) =>
+{
+    // creates a new map for users to edit
     if(arg === 'null')
     {
         width = 10
@@ -43,23 +52,33 @@ ipcRenderer.on('openFile', (event, arg) => {
         name = 'new-map.json'
         startpoint = [0, 0]
     }
+    // opens a previously existing map file
     else
     {
-        fs.readFile(arg, (err, data) => {
+        fs.readFile(arg, (err, data) =>
+        {
             if(err)
             {
-                console.log('failed opening map')
+                throw err
             }
+            
+            // gets JSON from file and converts to an object
             map = JSON.parse(data.toString())
             
+            // sets global editor vars
             name = map.name
             startpoint = map.startpoint
             mapArray = map.map
             
-            canvas.style.height = (blocksize * mapArray.length) + 'px';
-            canvas.style.width = (blocksize * mapArray[0].length) + 'px';
+            height = mapArray.length
+            width = mapArray[0].length
         })
     }
     
+    // updates canvas size to accomodate map size
+    canvas.style.height = (blockSize * height) + 'px'
+    canvas.style.width = (blockSize * width) + 'px'
+    
+    // starts draw loop
     requestAnimationFrame(draw)
 })
