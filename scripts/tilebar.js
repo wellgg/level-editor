@@ -1,3 +1,5 @@
+const {ipcRenderer} = require('electron')
+
 const imgs = require('./scripts/assets.js').imgs
 const blockSize = 64
 
@@ -20,6 +22,15 @@ function drawTiles()
 }
 
 requestAnimationFrame(draw)
+
+cnv.addEventListener('click', (event) =>
+{
+    let arg = Math.round(
+        (event.pageY + document.getElementById('container').scrollTop
+        + (.5 * blockSize)) / blockSize) - 1
+    ipcRenderer.send('tile-click', arg);
+    console.log(arg)
+});
 
 setTimeout(() =>
 {
