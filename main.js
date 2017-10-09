@@ -1,30 +1,6 @@
 const {app, BrowserWindow, ipcMain, Menu} = require('electron')
 let win, tilebar
 
-const template = [
-    {
-        label: 'File',
-        submenu: [
-            {
-                label: 'Save'
-            },
-            {
-                label: 'Save As'
-            }
-        ]
-    },
-    {
-        label: 'View',
-        submenu: [
-            {
-                role: 'togglefullscreen'
-            }
-        ]
-    }
-]
-
-const menu = Menu.buildFromTemplate(template)
-
 app.on('ready', () =>
 {
     // makes a new window
@@ -33,11 +9,11 @@ app.on('ready', () =>
         width: 1000,
         height:700,
         defaultFontFamily: 'monospace',
-        darkTheme: true
+        darkTheme: true,
+        autoHideMenuBar: true
     })
 
     win.loadURL(`file://${__dirname}/setup.html`)
-    win.setMenu(menu)
 
     tilebar = new BrowserWindow(
     {
@@ -68,12 +44,7 @@ app.on('window-all-closed', () =>
 
 ipcMain.on('openMap', (event, arg) =>
 {
-    win.loadURL(require('url').format(
-    {
-        protocol: 'file',
-        slashes: true,
-        pathname: require('path').join(__dirname, 'index.html')
-    }))
+    win.loadURL(`file://${__dirname}/index.html`)
 
     // will send which file for the editor to open and shows tilebar
     win.webContents.on('did-finish-load', () =>
@@ -87,4 +58,10 @@ ipcMain.on('tile-click', (event, arg) =>
 {
     win.webContents.send('select-new-tile', arg)
     //event.sender.send('select-new-tile', arg)
+})
+
+ipcMain.on('new-again', (event, arg) =>
+{
+    win.reload()
+    event.sender.send('openFile', 'null')
 })
