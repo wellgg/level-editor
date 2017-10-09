@@ -43,7 +43,7 @@ menu.append(new MenuItem({
             accelerator: 'CmdOrCtrl+O',
             click: (menuItem, browserWindow, event) =>
             {
-                window.location.replace('../open.html')
+                window.location.replace('./open.html')
             }
         },
         {
@@ -64,6 +64,8 @@ menu.append(new MenuItem({
         }
     ]
 }))
+
+remote.getCurrentWindow().setMenu(menu)
 
 function saveMap(file)
 {

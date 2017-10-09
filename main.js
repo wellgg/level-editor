@@ -9,8 +9,7 @@ app.on('ready', () =>
         width: 1000,
         height:700,
         defaultFontFamily: 'monospace',
-        darkTheme: true,
-        autoHideMenuBar: true
+        darkTheme: true
     })
 
     win.loadURL(`file://${__dirname}/setup.html`)
